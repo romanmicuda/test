@@ -35,6 +35,10 @@ public class MyappApplication implements CommandLineRunner {
                 case "print":
                     productService.printProducts(product);
                     break;
+				case "findMax":
+                    String maxDescription = productService.findMax(product);
+                    System.out.println(maxDescription);
+                    break;
                 default:
                     System.out.println("Unknown operation: " + operation);
                     break;

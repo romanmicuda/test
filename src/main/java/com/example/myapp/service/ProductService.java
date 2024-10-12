@@ -16,6 +16,38 @@ public class ProductService {
         return objectMapper.readValue(new File(jsonFilePath), Product.class);
     }
 
+    public String findMax(Product product) {
+        int maxValue = Integer.MIN_VALUE;
+        String maxDescription = "";
+        boolean found = false;
+
+        for (Map.Entry<String, Map<String, Integer>> entry : product.getFruits().entrySet()) {
+            for (Map.Entry<String, Integer> colorEntry : entry.getValue().entrySet()) {
+                if (colorEntry.getValue() > maxValue) {
+                    maxValue = colorEntry.getValue();
+                    maxDescription = "fruits -> " + entry.getKey() + " -> " + colorEntry.getKey() + ": " + maxValue;
+                    found = true;
+                }
+            }
+        }
+
+        for (Map.Entry<String, Map<String, Integer>> entry : product.getVegetables().entrySet()) {
+            for (Map.Entry<String, Integer> colorEntry : entry.getValue().entrySet()) {
+                if (colorEntry.getValue() > maxValue) {
+                    maxValue = colorEntry.getValue();
+                    maxDescription = "vegetables -> " + entry.getKey() + " -> " + colorEntry.getKey() + ": " + maxValue;
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            return "No products available.";
+        }
+
+        return maxDescription;
+    }
+
     public void printProducts(Product product) {
         System.out.println("fruits");
         product.getFruits().forEach((fruit, colors) -> {
